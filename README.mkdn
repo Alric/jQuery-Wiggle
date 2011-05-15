@@ -1,0 +1,97 @@
+# jQuery Wiggle Plugin
+
+DEMO: http://area51.thedrunkenepic.com/wiggle/
+
+This plugin allows you to emulate the wiggle effect icons on an i(Phone|Pad|Pod Touch) have when you press and hold down on them. This is a ridiculously simple plugin with only a handful of configuration options.
+
+## Enable Wiggle
+
+To enable the wiggle effect on matched elements, do the following:
+
+	$('img').wiggle('start');
+	
+Or:
+
+	$('img').wiggle();
+	
+This simply enables with wiggle effect. However, there are a few options you may include when enabling this plugin:
+
+	$('img').wiggle('start', {
+		wiggleDegrees: ['1','2','1','0','-1','-2','-1','0'],
+		delay: 35,
+		limit: 5,
+		randomStart: false,
+		onWiggle: function(object) {
+			// code goes here
+		},
+		onWiggleStart: function(object) {
+			// code goes here
+		},
+		onWiggleStop: function(object) {
+			// code goes here
+		}
+	});
+
+Note the values displayed above are default for this plugin.
+
+1. `wiggleDegrees` is an Array object which outlines the cycle of rotation for a wiggle increment. As you can see above, it only varies by 2 pixels maximum when moving back and forth. You may modify this range however you like.
+2. `delay` allows you to specify, in milliseconds, the delay between switching from one rotation degree to the next (see `wiggleDegrees`). A higher number creates a slower "wiggle."
+3. `limit` allows you to specify the maximum number of wiggles.
+4. `randomStart` a boolean value which tells the plugin to start wiggling all matched elements at the same `wiggleDegree` or a random one.
+5. `onWiggle` an event that is fired off with the end of each wiggle. Provides a reference, `object`, to the current element.
+6. `onWiggleStart` an event that is fired off when the wiggling effect first starts. Provides a reference, `object`, to the current element.
+7. `onWiggleStop` an event that is fired off when the wiggling effect is stopped. Provides a reference, `object`, to the current element.
+
+## Checking Wiggle Count
+
+You can check the number of times an element has wiggled through the use of the available events `onWiggle`, `onWiggleStart` and `onWiggleStop`. Each of the callbacks associated with these events is given a reference to the current element. This reference is provided as a parameter for each callback and is entitled `object`.
+
+To access this information you must use jQuery's `data` feature like so:
+
+	onWiggle: function(object) {
+		window.console.log($(object).data('wiggles'));
+	}
+
+In this example, you are writing the number of wiggles to the JavaScript command console every time the `onWiggle` event callback is fired. You can use this attribute to, for example, stop an element from wiggling after 'n' amount of wiggles, like so:
+
+	onWiggle: function(object) {
+		if($(object).data('wiggles') == 5) {
+			$(object).wiggle('stop');
+		}
+	}
+
+ ## Disable Wiggle
+
+To disable the wiggle effect on previously matched elements, do the following:
+
+	$('img').wiggle('stop');
+	
+Or through an event callback, like so:
+
+	onWiggle: function(object) {
+		$(object).wiggle('stop');
+	}
+
+## Is Element "Wiggling?"
+
+There is also a simple convenience method which works on single elements that can be used to determine if the matched element is currently "wiggling." You can use it like so:
+
+	$('img').click(function(){
+		if($(this).wiggle('isWiggling')) {
+			$(this).wiggle('stop');
+		} else {
+			$(this).wiggle('start');
+		}
+	});
+
+The above code binds an `onClick` event to every image element within the current document. Once a `onClick` event occurs, the code first checks if the image is currently wiggling. If it is, it stops wiggling. If it isn't, it begins to wiggle.
+
+## Note
+
+1. As this uses CSS3 transitions, it will work only in the following browsers: [http://www.findmebyip.com/litmus/#mdz_cssgradients](http://www.findmebyip.com/litmus/#mdz_cssgradients)  
+2. If you want full support for this across all modern browsers, you can use this plugin in combination with [Sandpaper](http://www.useragentman.com/blog/csssandpaper-a-css3-javascript-library/). This plugin already has built-in support for the `-sand-transform` property.
+3. If you find any bugs or have suggestions for improvements do NOT hesitate to do a pull request. :)
+
+## Credits
+
+I did have a bit of trouble figuring out how to actually 'stop' the wiggle, but thanks to Stackoverflow and Christian Varga (@levymetal), I was able to come up with a workable, and efficient, solution.
