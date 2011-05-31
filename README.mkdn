@@ -86,6 +86,10 @@ There is also a simple convenience method which works on single elements that ca
 
 The above code binds an `onClick` event to every image element within the current document. Once a `onClick` event occurs, the code first checks if the image is currently wiggling. If it is, it stops wiggling. If it isn't, it begins to wiggle.
 
+## CSS Stuff
+
+Elements which are in a wiggle state will have the `.wiggling` CSS class applied. You can use this to apply special styles to an element for the duration of the effect.
+
 ## Note
 
 1. As this uses CSS3 transitions, it will work only in the following browsers: [http://www.findmebyip.com/litmus/#mdz_cssgradients](http://www.findmebyip.com/litmus/#mdz_cssgradients)  
